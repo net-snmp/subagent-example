@@ -3,7 +3,7 @@
 #include <net-snmp/agent/net-snmp-agent-includes.h>
 #include <signal.h>
 
-#include <nstAgentSubagentObject.h>
+#include "nstAgentSubagentObject.h"
 
 static int keep_running;
 
