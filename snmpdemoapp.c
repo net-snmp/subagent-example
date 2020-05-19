@@ -50,7 +50,8 @@ int main(int argc, char ** argv)
     session.securityLevel = SNMP_SEC_LEVEL_AUTHNOPRIV;
 
     /* set the authentication method to MD5 */
-    session.securityAuthProto = usmHMACMD5AuthProtocol;
+    session.securityAuthProto = netsnmp_memdup(usmHMACMD5AuthProtocol,
+					       sizeof(usmHMACMD5AuthProtocol));
     session.securityAuthProtoLen = sizeof(usmHMACMD5AuthProtocol)/sizeof(oid);
     session.securityAuthKeyLen = USM_AUTH_KU_LEN;
 
@@ -59,7 +60,8 @@ int main(int argc, char ** argv)
        characters long) */
     if (generate_Ku(session.securityAuthProto,
                     session.securityAuthProtoLen,
-                    (u_char *) our_v3_passphrase, strlen(our_v3_passphrase),
+                    (const u_char *) our_v3_passphrase,
+		    strlen(our_v3_passphrase),
                     session.securityAuthKey,
                     &session.securityAuthKeyLen) != SNMPERR_SUCCESS) {
         snmp_perror(argv[0]);
