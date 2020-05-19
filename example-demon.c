@@ -47,8 +47,8 @@ main (int argc, char **argv) {
 
   /* initialize vacm/usm access control  */
   if (!agentx_subagent) {
-      init_vacm_vars();
-      init_usmUser();
+      init_vacm();
+      init_usm();
   }
 
   /* example-demon will be used to read example-demon.conf files. */
