@@ -9,9 +9,6 @@
 
 CC=gcc
 
-OBJS1=snmpdemoapp.o
-OBJS2=example-demon.o nstAgentSubagentObject.o
-OBJS3=asyncapp.o
 TARGETS=example-demon snmpdemoapp asyncapp
 
 CFLAGS=-I. `net-snmp-config --cflags`
@@ -23,18 +20,20 @@ DLFLAGS=-fPIC -shared
 
 all: $(TARGETS)
 
-snmpdemoapp: $(OBJS1)
-	$(CC) -o snmpdemoapp $(OBJS1) $(BUILDLIBS)
+snmpdemoapp: snmpdemoapp.o
+	$(CC) -o $@ $@.o $(BUILDLIBS)
 
-asyncapp: $(OBJS3)
-	$(CC) -o asyncapp $(OBJS3) $(BUILDLIBS)
+asyncapp: asyncapp.o
+	$(CC) -o $@ $@.o $(BUILDLIBS)
 
-example-demon: $(OBJS2)
-	$(CC) -o example-demon $(OBJS2)  $(BUILDAGENTLIBS)
+example-demon: example-demon.o nstAgentSubagentObject.o
+	$(CC) -o $@ $@.o nstAgentSubagentObject.o $(BUILDAGENTLIBS)
 
 clean:
-	rm $(OBJS2) $(OBJS2) $(TARGETS)
+	rm -f -- *.o $(TARGETS)
 
-nstAgentPluginObject.so: nstAgentPluginObject.c Makefile
-	$(CC) $(CFLAGS) $(DLFLAGS) -c -o nstAgentPluginObject.o nstAgentPluginObject.c
-	$(CC) $(CFLAGS) $(DLFLAGS) -o nstAgentPluginObject.so nstAgentPluginObject.o
+nstAgentPluginObject.o: nstAgentPluginObject.c Makefile
+	$(CC) $(CFLAGS) $(DLFLAGS) -c -o $@ nstAgentPluginObject.c
+
+nstAgentPluginObject.so: nstAgentPluginObject.o Makefile
+	$(CC) $(CFLAGS) $(DLFLAGS) -o $@ nstAgentPluginObject.o
