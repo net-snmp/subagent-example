@@ -45,7 +45,7 @@ init_nstAgentSubagentObject(void)
      * function. 
      */
     DEBUGMSGTL(("nstAgentSubagentObject",
-                "Initalizing nstAgentSubagentObject scalar integer.  Default value = %d\n",
+                "Initalizing nstAgentSubagentObject scalar integer.  Default value = %ld\n",
                 nstAgentSubagentObject));
 
     netsnmp_register_long_instance("nstAgentSubagentObject",
