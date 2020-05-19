@@ -38,7 +38,7 @@ struct host {
 struct oid {
   const char *Name;
   oid Oid[MAX_OID_LEN];
-  int OidLen;
+  size_t OidLen;
 } oids[] = {
   { "system.sysDescr.0" },
   { "interfaces.ifNumber.1" },
@@ -84,7 +84,7 @@ int print_result (int status, struct snmp_session *sp, struct snmp_pdu *pdu)
 
   gettimeofday(&now, &tz);
   tm = localtime(&now.tv_sec);
-  fprintf(stdout, "%.2d:%.2d:%.2d.%.6d ", tm->tm_hour, tm->tm_min, tm->tm_sec,
+  fprintf(stdout, "%.2d:%.2d:%.2d.%.6ld ", tm->tm_hour, tm->tm_min, tm->tm_sec,
           now.tv_usec);
   switch (status) {
   case STAT_SUCCESS:
@@ -131,8 +131,8 @@ void synchronous (void)
     snmp_sess_init(&ss);			/* initialize session */
     ss.version = SNMP_VERSION_2c;
     ss.peername = strdup(hp->name);
-    ss.community = strdup(hp->community);
-    ss.community_len = strlen(ss.community);
+    ss.community = (u_char *)strdup(hp->community);
+    ss.community_len = strlen(hp->community);
     if (!(sp = snmp_open(&ss))) {
       snmp_perror("snmp_open");
       continue;
@@ -209,8 +209,8 @@ void asynchronous(void)
     snmp_sess_init(&sess);			/* initialize session */
     sess.version = SNMP_VERSION_2c;
     sess.peername = strdup(hp->name);
-    sess.community = strdup(hp->community);
-    sess.community_len = strlen(sess.community);
+    sess.community = (u_char *)strdup(hp->community);
+    sess.community_len = strlen(hp->community);
     sess.callback = asynch_response;		/* default callback */
     sess.callback_magic = hs;
     if (!(hs->sess = snmp_open(&sess))) {
