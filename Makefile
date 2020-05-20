@@ -11,9 +11,10 @@ CC=gcc
 
 TARGETS=example-demon snmpdemoapp asyncapp
 
-CFLAGS=`net-snmp-config --cflags` -Wall -Wextra -Werror
-BUILDLIBS=`net-snmp-config --libs`
-BUILDAGENTLIBS=`net-snmp-config --agent-libs`
+NET_SNMP_CONFIG=net-snmp-config
+CFLAGS=`$(NET_SNMP_CONFIG) --cflags` -Wall -Wextra -Werror
+BUILDLIBS=`$(NET_SNMP_CONFIG) --libs`
+BUILDAGENTLIBS=`$(NET_SNMP_CONFIG) --agent-libs`
 
 # shared library flags (assumes gcc)
 DLFLAGS=-fPIC -shared
