@@ -12,7 +12,8 @@ CC=gcc
 TARGETS=example-demon snmpdemoapp asyncapp
 
 NET_SNMP_CONFIG=net-snmp-config
-CFLAGS=`$(NET_SNMP_CONFIG) --cflags` -Wall -Wextra -Werror
+CFLAGS=`$(NET_SNMP_CONFIG) --cflags` -Wall -Wextra -Werror \
+	-Wno-unused-parameter
 BUILDLIBS=`$(NET_SNMP_CONFIG) --libs`
 BUILDAGENTLIBS=`$(NET_SNMP_CONFIG) --agent-libs`
 

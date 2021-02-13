@@ -40,10 +40,10 @@ struct oid {
   oid Oid[MAX_OID_LEN];
   size_t OidLen;
 } oids[] = {
-  { "system.sysDescr.0" },
-  { "interfaces.ifNumber.1" },
-  { "interfaces.ifNumber.0" },
-  { NULL }
+  { .Name = "system.sysDescr.0" },
+  { .Name = "interfaces.ifNumber.1" },
+  { .Name = "interfaces.ifNumber.0" },
+  { .Name = NULL }
 };
 
 /*
